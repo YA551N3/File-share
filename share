@@ -1,1 +1,37 @@
-export PATH=$PATH:/usr/local/go/bin
+#!/bin/bash
+
+echo "🔍 Scanning for installed antivirus software on Linux..."
+
+# List of common antivirus software and associated commands
+declare -A av_list=(
+  ["ClamAV"]="clamscan"
+  ["Sophos"]="savd"
+  ["ESET NOD32"]="esets_scan"
+  ["Comodo"]="cmdscan"
+  ["F-PROT"]="fpscan"
+  ["Bitdefender"]="bdscan"
+  ["Kaspersky"]="klnagent"
+  ["AVG"]="avgscan"
+  ["Avast"]="avast"
+  ["Malwarebytes"]="mbctl"
+)
+
+found_any=false
+
+for name in "${!av_list[@]}"; do
+  binary="${av_list[$name]}"
+  if command -v "$binary" &> /dev/null; then
+    echo "✅ Detected: $name ($binary found in PATH)"
+    found_any=true
+  elif pgrep -x "$binary" &> /dev/null; then
+    echo "✅ Detected running process for: $name ($binary)"
+    found_any=true
+  elif systemctl list-units --type=service | grep -iq "$binary"; then
+    echo "✅ Detected service for: $name"
+    found_any=true
+  fi
+done
+
+if ! $found_any; then
+  echo "❌ No known antivirus software detected."
+fi
