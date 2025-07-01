@@ -3,3 +3,8 @@ curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/t
   ./msfinstall
 
 nmap -sV 10.49.96.206 -p 3200-3299,3300-3399,8000-8099,8100-8199,50000-59913,80,443
+
+
+echo "deb http://deb.debian.org/debian bullseye main" | sudo tee /etc/apt/sources.list.d/bullseye.list
+sudo apt update
+sudo apt install python2 -y
