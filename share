@@ -1,3 +1,5 @@
 curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
   chmod 755 msfinstall && \
   ./msfinstall
+
+nmap -sV 10.49.96.206 -p 3200-3299,3300-3399,8000-8099,8100-8199,50000-59913,80,443
